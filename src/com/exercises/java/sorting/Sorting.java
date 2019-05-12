@@ -3,6 +3,7 @@ package com.exercises.java.sorting;
 
 import java.util.Arrays;
 import java.util.Random;
+import java.util.TreeMap;
 import java.util.stream.IntStream;
 
 
@@ -91,6 +92,59 @@ public class Sorting {
         else{
             return list;
         }
+    }
+
+    public static int[] countingSort(int[] list){
+
+        int length = list.length;
+
+        if(length > 1){
+            int min = list[0];
+            int max = list[0];
+            int[] output = new int[length];
+
+            //finding min and max to establish range
+            for(int elem : list){
+                if(elem < min){
+                    min = elem;
+                }
+
+                if(elem > max){
+                    max = elem;
+                }
+            }
+
+            //initiating histogram
+            TreeMap<Integer, Integer> hist = new TreeMap<>();
+
+            for(int i = min; i <= max; i++){
+                hist.put(i, 0);
+            }
+
+            //building histogram
+            for(int elem : list){
+                Integer currentValue = hist.get(elem);
+                hist.replace(elem, currentValue + 1);
+            }
+
+            //building output list from histogram
+            int idx = 0;
+            Integer counter;
+            for(Integer i : hist.keySet()){
+                counter = hist.get(i);
+                for(int j = 0; j < counter; j++){
+                    output[idx] = i;
+                    idx += 1;
+                }
+            }
+
+
+            return output;
+        }
+        else{
+            return list;
+        }
+
     }
 
 
